@@ -18,5 +18,6 @@ data[:,2] = intensity
 data[:,3] = sigma
 
 savetxt('fake_data.txt', data)
-
+scatter(u, v, s=10.*intensity)
+show()
 
