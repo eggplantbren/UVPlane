@@ -15,7 +15,7 @@ for i in xrange(0, posterior_sample.shape[0]):
   y = y[0:N]
   f = f[0:N]
 
-  scatter(x, y, s=f)
+  plot(x, y, 'bo', alpha=0.3)
   axis([-10, 10, -10, 10])
   draw()
 

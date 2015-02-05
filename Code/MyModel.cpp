@@ -42,15 +42,17 @@ double MyModel::logLikelihood() const
 	for(size_t i=0; i<u.size(); i++)
 	{
 		// Sum over components
-		mock = 0.;
+		real = 0.;
+		imag = 0.;
 		for(size_t j=0; j<components.size(); j++)
 		{
-			real =  cos(2.*M_PI*(u[i]*components[j][0] + v[i]*components[j][1]));
-			imag = -sin(2.*M_PI*(u[i]*components[j][0] + v[i]*components[j][1]));
-			mock += real*real + imag*imag;
+			real +=  components[j][2]*cos(2.*M_PI*(u[i]*components[j][0] + v[i]*components[j][1]));
+			imag += -components[j][2]*sin(2.*M_PI*(u[i]*components[j][0] + v[i]*components[j][1]));
 		}
-		mock /= (2.*M_PI);
-		logL += -0.5*log(2.*M_PI) - log(sigma[i])
+		real /= 2.*M_PI;
+		imag /= 2.*M_PI;
+		mock = real*real + imag*imag;
+		logL += //-0.5*log(2.*M_PI) - log(sigma[i])
 			-0.5*pow((intensity[i] - mock)/sigma[i], 2);
 	}
 
