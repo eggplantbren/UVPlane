@@ -10,9 +10,9 @@ MyDistribution::MyDistribution(double x_min, double x_max,
 				double y_min, double y_max)
 :x_min(x_min)
 ,x_max(x_max)
+,x_range(x_max - x_min)
 ,y_min(y_min)
 ,y_max(y_max)
-,x_range(x_max - x_min)
 ,y_range(y_max - y_min)
 {
 
