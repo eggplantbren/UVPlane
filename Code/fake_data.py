@@ -9,6 +9,7 @@ u = randn(N)
 v = randn(N)
 intensity = exp(-0.5*u**2 - 0.5*v**2)
 sigma = 0.01*ones(N)
+intensity += sigma*randn(N)
 
 data = empty((N, 4))
 data[:,0] = u
