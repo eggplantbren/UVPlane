@@ -8,7 +8,7 @@ using namespace std;
 using namespace DNest3;
 
 MyModel::MyModel()
-:objects(3, 100, false, MyDistribution(-1., 1., -1., 1.))
+:objects(3, 100, false, MyDistribution(-10., 10., -10., 10.))
 {
 
 }
@@ -34,7 +34,25 @@ double MyModel::logLikelihood() const
 	const vector<double>& intensity = Data::get_instance().get_intensity();
 	const vector<double>& sigma = Data::get_instance().get_sigma();
 
+	const vector< vector<double> >& components = objects.get_components();
+
 	double logL = 0.;
+
+	double mock, real, imag;
+	for(size_t i=0; i<u.size(); i++)
+	{
+		// Sum over components
+		mock = 0.;
+		for(size_t j=0; j<components.size(); j++)
+		{
+			real =  cos(2.*M_PI*(u[i]*components[j][0] + v[i]*components[j][1]));
+			imag = -sin(2.*M_PI*(u[i]*components[j][0] + v[i]*components[j][1]));
+			mock += real*real + imag*imag;
+		}
+		mock /= (2.*M_PI);
+		logL += -0.5*log(2.*M_PI) - log(sigma[i])
+			-0.5*pow((intensity[i] - mock)/sigma[i], 2);
+	}
 
 	return logL;
 }
